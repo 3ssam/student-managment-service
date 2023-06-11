@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-@JsonPropertyOrder({"id", "username", "email", "name", "grade"})
+@JsonPropertyOrder({"id", "username", "email", "name", "grade", "age"})
 @ApiModel
 public interface StudentProjection {
 
@@ -23,4 +23,7 @@ public interface StudentProjection {
 
     @ApiModelProperty(position = 5)
     public String getGrade();
+
+    @ApiModelProperty(position = 6)
+    public Integer getAge();
 }

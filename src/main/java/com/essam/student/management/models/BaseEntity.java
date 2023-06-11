@@ -25,4 +25,14 @@ public abstract class BaseEntity implements Serializable {
     @LastModifiedDate
     protected Instant updatedAt;
 
+    //    @CreatedBy
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "created_by", referencedColumnName = "id")
+//    protected User createdBy;
+//
+//    @LastModifiedBy
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "updated_by", referencedColumnName = "id")
+//    protected User updatedBy;
+
 }

@@ -19,4 +19,6 @@ public class Student extends User {
     private Set<Course> courses;
 
     private String grade;
+
+    private Integer age;
 }
