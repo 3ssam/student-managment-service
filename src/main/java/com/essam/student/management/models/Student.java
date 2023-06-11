@@ -1,5 +1,6 @@
 package com.essam.student.management.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Entity(name = "student")
 public class Student extends User {
     @ManyToMany
     @JoinTable(

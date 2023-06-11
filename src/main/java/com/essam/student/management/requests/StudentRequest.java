@@ -1,6 +1,7 @@
 package com.essam.student.management.requests;
 
 import com.essam.student.management.security.password.annotation.ValidPassword;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 public class StudentRequest {
 
-    @NotNull(message = "name username is mandatory")
+    @NotNull(message = "name is mandatory")
     private String name;
 
     @NotNull(message = "username is mandatory")
@@ -27,6 +28,7 @@ public class StudentRequest {
     @NotBlank(message = "Confirm Password is mandatory")
     private String confirmPassword;
 
+    @Email
     private String email;
     private String grade;
     private Integer age;
