@@ -8,6 +8,7 @@ import com.essam.student.management.requests.StudentRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,11 @@ public class StudentService {
     private CourseService courseService;
 
     @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public void setCourseService(@Lazy CourseService courseService) {
         this.courseService = courseService;
     }
@@ -31,6 +37,7 @@ public class StudentService {
         Student student = createStudentObject(request, null);
         student.setUsername(request.getUsername());
         student.setCourses(new ArrayList<>());
+        student.setPassword(passwordEncoder.encode(request.getPassword()));
         student = studentRepository.save(student);
         return studentRepository.getStudentById(student.getId());
     }
@@ -49,13 +56,9 @@ public class StudentService {
         student.setSuspended(false);
         student.setGrade(request.getGrade());
         student.setAge(request.getAge());
-//        student.setRole(roleService.getRoleByName(identifier, userDTO.getRoleName()));
+        student.setRole(roleService.getRoleObject(2L));
         return student;
     }
-
-//    public String generateNewPassword() throws Exception {
-//        return passwordService.generatePassword();
-//    }
 
     @Transactional
     public StudentProjection updateStudent(StudentRequest request, Long id) throws Exception {
