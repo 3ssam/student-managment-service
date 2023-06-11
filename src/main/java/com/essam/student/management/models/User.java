@@ -4,17 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
 @Setter
 @Getter
 @Entity
-public class User extends BaseEntity implements Serializable {
+public class User extends BaseEntity {
 
     private static final long serialVersionUID = 4258129832216468499L;
     @Column(nullable = false)
     protected String name;
-    @Column(nullable = false)
     private String email;
     @Column(nullable = false, unique = true)
     private String username;
