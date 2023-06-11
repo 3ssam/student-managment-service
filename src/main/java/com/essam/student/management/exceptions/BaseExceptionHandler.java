@@ -48,6 +48,7 @@ public class BaseExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiResponse genericExceptionHandler(Exception ex) {
         logger.error(ex);
+        ex.printStackTrace();
         if (ex instanceof MethodArgumentNotValidException) {
             StringBuilder errors = new StringBuilder();
             for (ObjectError error : ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors()) {

@@ -12,8 +12,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByUsername(String username);
 
-    StudentProjection getUserById(Long id);
-
     StudentProjection getStudentById(Long id);
 
     List<StudentProjection> findAllBy();

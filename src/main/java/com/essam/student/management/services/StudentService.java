@@ -21,8 +21,7 @@ public class StudentService {
         Student student = createStudentObject(request, null);
         student.setUsername(request.getUsername());
         student = studentRepository.save(student);
-
-        return studentRepository.getUserById(student.getId());
+        return studentRepository.getStudentById(student.getId());
     }
 
     private Student createStudentObject(StudentRequest request, Student student) throws Exception {
