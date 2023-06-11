@@ -1,6 +1,7 @@
 package com.essam.student.management.services;
 
 import com.essam.student.management.models.Course;
+import com.essam.student.management.models.Student;
 import com.essam.student.management.projection.CourseProjection;
 import com.essam.student.management.repositories.CourseRepository;
 import com.essam.student.management.requests.CourseRequest;
@@ -44,6 +45,14 @@ public class CourseService {
 
     public List<CourseProjection> getAllCourses() {
         return courseRepository.findAllBy();
+    }
+
+    public List<CourseProjection> getAllCoursesOfStudent(Student student) {
+        return courseRepository.findAllBy();
+    }
+
+    public List<Course> getCourses() {
+        return courseRepository.findAll();
     }
 
     public CourseProjection getCourse(Long id) throws Exception {

@@ -15,4 +15,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     StudentProjection getStudentById(Long id);
 
     List<StudentProjection> findAllBy();
+
+
 }

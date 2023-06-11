@@ -7,7 +7,7 @@ import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ public class Student extends User {
             name = "course_like",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Set<Course> courses;
+    private List<Course> courses;
 
     private String grade;
 

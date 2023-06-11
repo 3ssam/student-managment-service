@@ -3,12 +3,16 @@ package com.essam.student.management.controllers;
 import com.essam.student.management.requests.CourseRequest;
 import com.essam.student.management.response.ApiResponse;
 import com.essam.student.management.services.CourseService;
+import com.essam.student.management.util.PdfGenerator;
 import io.swagger.annotations.Api;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 
 @RestController
@@ -48,5 +52,12 @@ public class CourseController {
     public ApiResponse getAllCourses() {
         logger.info("getAllCourses received request");
         return ApiResponse.ok(courseService.getAllCourses());
+    }
+
+    @GetMapping("export")
+    public void downloadAllCourses(HttpServletResponse response) throws IOException {
+        logger.info("downloadAllCourses received request");
+        response = PdfGenerator.getPDFResponseWithMetaData(response);
+        PdfGenerator.generate(courseService.getCourses(), response);
     }
 }

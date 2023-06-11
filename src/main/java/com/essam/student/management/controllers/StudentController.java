@@ -1,14 +1,19 @@
 package com.essam.student.management.controllers;
 
+import com.essam.student.management.models.Course;
 import com.essam.student.management.requests.StudentRequest;
 import com.essam.student.management.response.ApiResponse;
 import com.essam.student.management.services.StudentService;
+import com.essam.student.management.util.PdfGenerator;
 import io.swagger.annotations.Api;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -49,4 +54,30 @@ public class StudentController {
         logger.info("getAllStudents received request");
         return ApiResponse.ok(studentService.getAllStudents());
     }
+
+    @GetMapping({"{studentId}/courses"})
+    public ApiResponse getStudentCourses(@PathVariable Long studentId) throws Exception {
+        logger.info("getStudentCourses received request");
+        return ApiResponse.ok(studentService.getStudentCourses(studentId));
+    }
+
+    @GetMapping({"{studentId}/courses/export"})
+    public void exportCoursesOfStudent(HttpServletResponse response, @PathVariable Long studentId) throws Exception {
+        logger.info("exportCoursesOfStudent received request");
+        response = PdfGenerator.getPDFResponseWithMetaData(response);
+        PdfGenerator.generate((List<Course>) studentService.exportCoursesOfStudent(studentId), response);
+    }
+
+    @PutMapping({"{studentId}/enrollCourse"})
+    public ApiResponse enrollCourse(@PathVariable Long studentId, @RequestParam Long courseId) throws Exception {
+        logger.info("enrollCourse received request");
+        return ApiResponse.ok(studentService.enrollCourse(studentId, courseId));
+    }
+
+    @DeleteMapping({"{studentId}/cancelCourse"})
+    public ApiResponse cancelCourse(@PathVariable Long studentId, @RequestParam Long courseId) throws Exception {
+        logger.info("cancelCourse received request");
+        return ApiResponse.ok(studentService.cancelCourse(studentId, courseId));
+    }
+
 }

@@ -13,5 +13,4 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     CourseProjection getCourseById(Long id);
 
     List<CourseProjection> findAllBy();
-
 }

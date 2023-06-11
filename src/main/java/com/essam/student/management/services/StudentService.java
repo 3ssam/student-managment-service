@@ -1,13 +1,16 @@
 package com.essam.student.management.services;
 
+import com.essam.student.management.models.Course;
 import com.essam.student.management.models.Student;
 import com.essam.student.management.projection.StudentProjection;
 import com.essam.student.management.repositories.StudentRepository;
 import com.essam.student.management.requests.StudentRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,10 +19,18 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
+    private CourseService courseService;
+
+    @Autowired
+    public void setCourseService(@Lazy CourseService courseService) {
+        this.courseService = courseService;
+    }
+
     @Transactional
     public StudentProjection createStudent(StudentRequest request) throws Exception {
         Student student = createStudentObject(request, null);
         student.setUsername(request.getUsername());
+        student.setCourses(new ArrayList<>());
         student = studentRepository.save(student);
         return studentRepository.getStudentById(student.getId());
     }
@@ -86,5 +97,30 @@ public class StudentService {
         return studentProjection;
     }
 
+    public Object getStudentCourses(Long id) throws Exception {
+        return getStudentIfExist(id).getCourses();
+    }
+
+    public Object exportCoursesOfStudent(Long id) throws Exception {
+        return getStudentIfExist(id).getCourses();
+    }
+
+    @Transactional
+    public StudentProjection enrollCourse(Long studentId, Long courseId) throws Exception {
+        Student student = getStudentIfExist(studentId);
+        Course course = courseService.getCourseIfExist(courseId);
+        student.getCourses().add(course);
+        studentRepository.save(student);
+        return studentRepository.getStudentById(student.getId());
+    }
+
+    @Transactional
+    public StudentProjection cancelCourse(Long studentId, Long courseId) throws Exception {
+        Student student = getStudentIfExist(studentId);
+        Course course = courseService.getCourseIfExist(courseId);
+        student.getCourses().remove(course);
+        studentRepository.save(student);
+        return studentRepository.getStudentById(student.getId());
+    }
 
 }
