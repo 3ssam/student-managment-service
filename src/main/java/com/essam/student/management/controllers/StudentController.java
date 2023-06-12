@@ -71,7 +71,7 @@ public class StudentController {
         return ApiResponse.ok(studentService.getStudentCourses(studentId));
     }
 
-    @Cacheable(cacheNames = "downlload_student_courses", key = "#studentId")
+    @Cacheable(cacheNames = "download_student_courses", key = "#studentId")
     @PreAuthorize("hasAuthority('DOWNLOAD_Students_Courses')")
     @GetMapping({"{studentId}/courses/export"})
     public void exportCoursesOfStudent(HttpServletResponse response, @PathVariable Long studentId) throws Exception {

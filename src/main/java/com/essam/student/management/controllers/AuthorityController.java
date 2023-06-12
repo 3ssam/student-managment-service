@@ -43,7 +43,7 @@ public class AuthorityController {
         authorityService.deleteAuthority(authorityId);
     }
 
-    @Cacheable(cacheNames = "authoritie", key = "#authorityId")
+    @Cacheable(cacheNames = "authority", key = "#authorityId")
     @PreAuthorize("hasAuthority('READ_Authority')")
     @GetMapping({"{AuthorityId}"})
     public ApiResponse getAuthority(@PathVariable Long authorityId) throws Exception {
