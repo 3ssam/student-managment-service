@@ -1,4 +1,4 @@
-# Drone-Task
+# Student Management
 
 Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 
