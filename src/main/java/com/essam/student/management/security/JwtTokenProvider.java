@@ -35,7 +35,8 @@ public class JwtTokenProvider {
                 .claim("usr", principal.getName())
                 .claim("lgn", principal.getUsername())
                 .claim("scp", userScope)
-                .setIssuedAt(new Date(new Date().getTime() + expiration))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
