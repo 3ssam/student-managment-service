@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class StudentController {
         return ApiResponse.deleted(studentService.deleteStudent(studentId));
     }
 
+    @Cacheable(cacheNames = "student", key = "#studentId")
     @PreAuthorize("hasAuthority('RETRIEVE_Student')")
     @GetMapping({"{studentId}"})
     public ApiResponse getStudent(@PathVariable Long studentId) throws Exception {
@@ -53,6 +55,7 @@ public class StudentController {
         return ApiResponse.ok(studentService.getStudent(studentId));
     }
 
+    @Cacheable(cacheNames = "students")
     @PreAuthorize("hasAuthority('RETRIEVE_Students')")
     @GetMapping()
     public ApiResponse getAllStudents() {
@@ -60,6 +63,7 @@ public class StudentController {
         return ApiResponse.ok(studentService.getAllStudents());
     }
 
+    @Cacheable(cacheNames = "student_courses", key = "#studentId")
     @PreAuthorize("hasAuthority('RETRIEVE_Students_Courses')")
     @GetMapping({"{studentId}/courses"})
     public ApiResponse getStudentCourses(@PathVariable Long studentId) throws Exception {
@@ -67,6 +71,7 @@ public class StudentController {
         return ApiResponse.ok(studentService.getStudentCourses(studentId));
     }
 
+    @Cacheable(cacheNames = "downlload_student_courses", key = "#studentId")
     @PreAuthorize("hasAuthority('DOWNLOAD_Students_Courses')")
     @GetMapping({"{studentId}/courses/export"})
     public void exportCoursesOfStudent(HttpServletResponse response, @PathVariable Long studentId) throws Exception {

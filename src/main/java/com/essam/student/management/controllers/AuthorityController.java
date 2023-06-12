@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class AuthorityController {
         authorityService.deleteAuthority(authorityId);
     }
 
+    @Cacheable(cacheNames = "authoritie", key = "#authorityId")
     @PreAuthorize("hasAuthority('READ_Authority')")
     @GetMapping({"{AuthorityId}"})
     public ApiResponse getAuthority(@PathVariable Long authorityId) throws Exception {
@@ -49,6 +51,7 @@ public class AuthorityController {
         return ApiResponse.ok(authorityService.getAuthority(authorityId));
     }
 
+    @Cacheable(cacheNames = "authorities")
     @PreAuthorize("hasAuthority('READ_Authorities')")
     @GetMapping()
     public ApiResponse getAuthorities() {

@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class RoleController {
         roleService.deleteRole(roleId);
     }
 
+    @Cacheable(cacheNames = "role", key = "#roleId")
     @PreAuthorize("hasAuthority('READ_ROLE')")
     @GetMapping({"{roleId}"})
     public ApiResponse getRole(@PathVariable Long roleId) throws Exception {
@@ -49,6 +51,7 @@ public class RoleController {
         return ApiResponse.ok(roleService.getRole(roleId));
     }
 
+    @Cacheable(cacheNames = "roles")
     @PreAuthorize("hasAuthority('READ_ALL_ROLES')")
     @GetMapping()
     public ApiResponse getRoles() {
@@ -56,6 +59,7 @@ public class RoleController {
         return ApiResponse.ok(roleService.getAllRoles());
     }
 
+    @Cacheable(cacheNames = "role_by_id", key = "#roleId")
     @PreAuthorize("hasAuthority('ASSIGN_AUTHORITY_TO_ROLE')")
     @GetMapping("assignAuthority/{roleId}/name")
     public void assignAuthorityToRole(@PathVariable Long roleId, @RequestParam String authorityName) throws Exception {
@@ -63,6 +67,7 @@ public class RoleController {
         roleService.assignAuthorityToRole(roleId, authorityName);
     }
 
+    @Cacheable(cacheNames = "role_by_name", key = "#roleId")
     @PreAuthorize("hasAuthority('ASSIGN_AUTHORITY_TO_ROLE')")
     @GetMapping("assignAuthority/{roleId}/id")
     public void assignAuthorityToRole(@PathVariable Long roleId, @RequestParam Long authorityId) throws Exception {

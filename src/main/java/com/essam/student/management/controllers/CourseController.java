@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +47,7 @@ public class CourseController {
         return ApiResponse.deleted(courseService.deleteCourse(courseId));
     }
 
+    @Cacheable(cacheNames = "course", key = "#courseId")
     @PreAuthorize("hasAuthority('RETRIEVE_Course')")
     @GetMapping({"{courseId}"})
     public ApiResponse getCourse(@PathVariable Long courseId) throws Exception {
@@ -53,6 +55,7 @@ public class CourseController {
         return ApiResponse.ok(courseService.getCourse(courseId));
     }
 
+    @Cacheable(cacheNames = "courses")
     @PreAuthorize("hasAuthority('RETRIEVE_Courses')")
     @GetMapping()
     public ApiResponse getAllCourses() {
@@ -60,6 +63,7 @@ public class CourseController {
         return ApiResponse.ok(courseService.getAllCourses());
     }
 
+    @Cacheable(cacheNames = "export_courses")
     @PreAuthorize("hasAuthority('DOWNLOAD_Courses')")
     @GetMapping("export")
     public void downloadAllCourses(HttpServletResponse response) throws IOException {
